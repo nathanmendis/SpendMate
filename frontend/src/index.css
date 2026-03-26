@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-cyan: #48CAE4;
+  --color-bg-primary: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --font-outfit: "Outfit", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-slate-800 font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Smaller, more refined rounding and padding */
+  .glass-card {
+    @apply bg-white/70 backdrop-blur-xl border border-white/40 shadow-sm rounded-2xl;
+  }
+  
+  .cyan-gradient {
+    @apply bg-gradient-to-br from-brand-cyan/20 to-brand-cyan/10;
+  }
+
+  .btn-primary {
+    @apply px-5 py-2.5 bg-brand-cyan text-white text-sm font-bold rounded-xl hover:bg-brand-cyan/90 transition-all shadow-md shadow-brand-cyan/20 hover:shadow-brand-cyan/40 hover:-translate-y-0.5 active:translate-y-0 active:scale-95;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-4 focus:ring-brand-cyan/10 focus:border-brand-cyan outline-none transition-all text-sm text-slate-700 placeholder:text-slate-400 font-medium;
+  }
+
+  .nav-link {
+    @apply flex items-center gap-2 px-4 py-2 rounded-xl transition-all font-bold text-sm text-slate-500 hover:bg-slate-50 hover:text-cyan-600;
+  }
+
+  .nav-link-active {
+    @apply bg-cyan-500 text-white shadow-md shadow-cyan-100 ring-2 ring-cyan-50 scale-105;
+  }
+}
+
+/* Custom Scrollbar for sleekness */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-200 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-slate-300;
+}

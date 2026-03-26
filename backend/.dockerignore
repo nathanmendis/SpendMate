@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+# poetry.lock is needed for build
+db.sqlite3
+.git/
+node_modules/

@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_DB=spendmate_db
+      - POSTGRES_USER=spendmate
+      - POSTGRES_PASSWORD=password123
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U spendmate -d spendmate_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    command: >
+      sh -c "python manage.py makemigrations &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8080"
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8080:8080"
+    environment:
+      - DEBUG=True
+      - SECRET_KEY=django-insecure-production-ready-key-777
+      - DATABASE_URL=postgres://spendmate:password123@db:5432/spendmate_db
+      - ENCRYPTION_KEY=wq8ystF7yQnSYvRR9iwX60m-SXLN4myhJNlNrK8wD5A=
+      - ALLOWED_HOSTS=*
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "80:80"
+    environment:
+      - VITE_API_URL=http://localhost:8080/api/
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
